@@ -14,4 +14,16 @@ public class Scheduler {
 		listProcesses = new ArrayList<Process>();
 		queueProcesses = new LinkedList<Process>();
 	}
+	
+	public int getNumberOfProcesses() {
+		return this.numberOfProcesses;
+	}
+	
+	public int getTimeSlice() {
+		return this.timeSlice;
+	}
+	
+	public void addProcess(Process p) {
+		listProcesses.add(p);
+	}
 }
