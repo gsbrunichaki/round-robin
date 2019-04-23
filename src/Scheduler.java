@@ -5,6 +5,7 @@ import java.util.LinkedList;
 public class Scheduler {
 	private int numberOfProcesses;
 	private int timeSlice;
+	private int countProcesses;
 	private ArrayList<Process> listProcesses;
 	private Queue<Process> queueProcesses;
 	
@@ -23,7 +24,16 @@ public class Scheduler {
 		return this.timeSlice;
 	}
 	
+	public int getCountProcesses() {
+		return this.countProcesses;
+	}
+	
+	public void incrementCountProcesses() {
+		this.countProcesses += 1;
+	}
+	
 	public void addProcess(Process p) {
 		listProcesses.add(p);
+		incrementCountProcesses();
 	}
 }

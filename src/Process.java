@@ -1,13 +1,13 @@
 import java.util.ArrayList;
 
 public class Process {
-	private int id;
+	private String name;
 	private int arrivalTime;
 	private int executionTime;
 	private ArrayList<Integer> accessTime;
 	
-	public Process(int id, int arrivalTime, int executionTime) {
-		this.id = id;
+	public Process(String name, int arrivalTime, int executionTime) {
+		this.name = name;
 		this.arrivalTime = arrivalTime;
 		this.executionTime = executionTime;
 		accessTime = new ArrayList<Integer>();

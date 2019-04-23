@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.StringTokenizer;
 
 public class App {
 	
@@ -9,9 +10,14 @@ public class App {
 		      FileReader txtFile = new FileReader("processes.txt");
 		      BufferedReader readFile = new BufferedReader(txtFile);
 		      Scheduler scheduler = new Scheduler(Integer.parseInt(readFile.readLine()), Integer.parseInt(readFile.readLine()));
+		      String line = readFile.readLine();
 		      
-		      System.out.println(scheduler.getNumberOfProcesses());
-		      System.out.println(scheduler.getTimeSlice());
+		      while (line != null) {
+		    	  // split da linha aqui
+		    	  line = readFile.readLine();
+		      }
+		      
+		      scheduler.addProcess(new Process("P" + (scheduler.getCountProcesses() + 1), 2, 3));
 		      
 		      txtFile.close();
 		    } catch (IOException e) {
