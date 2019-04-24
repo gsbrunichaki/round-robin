@@ -9,11 +9,12 @@ public class Scheduler {
 	private ArrayList<Process> listProcesses;
 	private Queue<Process> queueProcesses;
 	
-	public Scheduler(int numberOfProcesses, int timeSlice) {
-		this.numberOfProcesses = numberOfProcesses;
-		this.timeSlice = timeSlice;
+	public Scheduler(String numberOfProcesses, String timeSlice) {
 		listProcesses = new ArrayList<Process>();
 		queueProcesses = new LinkedList<Process>();
+		
+		this.numberOfProcesses = Integer.parseInt(numberOfProcesses);
+		this.timeSlice = Integer.parseInt(timeSlice);
 	}
 	
 	public int getNumberOfProcesses() {
@@ -35,5 +36,19 @@ public class Scheduler {
 	public void addProcess(Process p) {
 		listProcesses.add(p);
 		incrementCountProcesses();
+	}
+	
+	public Process getProcess(int id) {
+		return this.listProcesses.get(id);
+	}
+	
+	public void listProcesses() {
+		for (int i = 0; i < listProcesses.size(); i++) {
+			System.out.println("Processo " + listProcesses.get(i).getName() + ":");
+			System.out.println("Chegada: " + listProcesses.get(i).getArrivalTime());
+			System.out.println("Tempo de Execução: " + listProcesses.get(i).getExecutionTime());
+			System.out.println();
+			// System.out.print("Próxima Parada E/S: " + listProcesses.get(i).);
+		}
 	}
 }
