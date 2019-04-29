@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Collections;
 
 public class App {
 	
@@ -19,8 +20,10 @@ public class App {
 		    	  id++;
 		      }
 		      
-		      scheduler.listProcesses();
 		      txtFile.close();
+		      
+		      scheduler.listProcesses();
+		      scheduler.someName();
 		} catch (IOException e) {
 			System.err.printf("Erro na abertura do arquivo: %s.\n", e.getMessage());
 		} finally {
