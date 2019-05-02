@@ -23,14 +23,12 @@ public class App {
 		      txtFile.close();
 		      
 		      scheduler.listProcesses();
-		      scheduler.someName();
+		      
+		      CPU cpu = new CPU(scheduler);
+		      cpu.run();
 		} catch (IOException e) {
 			System.err.printf("Erro na abertura do arquivo: %s.\n", e.getMessage());
-		} finally {
-			System.exit(0);
 		}
-		
-		System.out.println("Continua...");
 	}
 	
 	public static void lineToProcess(Scheduler scheduler, int id, String line) {

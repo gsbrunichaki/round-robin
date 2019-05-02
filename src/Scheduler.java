@@ -46,24 +46,18 @@ public class Scheduler {
 	public void listProcesses() {
 		Collections.sort(this.processesList);
 		
-		for (int i = 0; i < processesList.size(); i++) {
-			System.out.println("Processo " + processesList.get(i).getName() + ":");
-			System.out.println("Chegada: " + processesList.get(i).getArrivalTime());
-			System.out.println("Tempo de Execução: " + processesList.get(i).getExecutionTime());
-			System.out.print("E/S: ");
-			
-			if (processesList.get(i).getIoTimes().size() > 0) {
-				Queue<Integer> queueAux = processesList.get(i).getIoTimes();
-				
-				for (int j = 0; j <= queueAux.size(); j++) {
-					System.out.print(queueAux.poll() + " ");
-				}
-			} else {
-				System.out.print("- ");
-			}
-			
-			System.out.println("\n");
+		for (int i = 0; i < this.processesList.size(); i++) {
+			this.processesList.get(i);
 		}
+	}
+	
+	public ArrayList<Process> getProcessesList() {
+		Collections.sort(this.processesList);
+		return this.processesList;
+	}
+	
+	public Queue<Process> getProcessesQueue() {
+		return this.processesQueue;
 	}
 	
 	public ArrayList<Integer> arrivalList() {
@@ -76,27 +70,13 @@ public class Scheduler {
 		return arrivals;
 	}
 	
-	public void someName() {		
-		ArrayList<Integer> arrivals = arrivalList();
+	public int calcSumTime() {
+		int count = 0;
 		
-		/*for (int i = 1; i < 15; i++) {
-			if(arrivals.get(0) == i) {
-				System.out.print("C");
-				arrivals.remove(0);
-			} else {
-				System.out.print("-");
-			}
-		}*/
-		
-		for (int i = 1; i < 20; i++) {
-			for (int j = 0; j < this.processesList.size(); j++) {
-				if (this.processesList.get(j).getArrivalTime() == i) {
-					System.out.print("C");
-					break;
-				}
-			}
-			
-			System.out.print("-");
+		for (int i = 0; i < this.countProcesses; i++) {
+			count += this.processesList.get(i).getExecutionTime();
 		}
+		
+		return count;
 	}
 }

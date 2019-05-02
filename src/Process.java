@@ -1,5 +1,4 @@
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.ArrayList;
 
 public class Process implements Comparable<Process> {
 	private String name;
@@ -7,15 +6,41 @@ public class Process implements Comparable<Process> {
 	private int executionTime;
 	private int alreadyExecuted;
 	private int currentSlice;
-	private Queue<Integer> ioTimes;
+	private int countToIo;
+	private int ioExecutionTime;
+	private int doingIo;
+	private ArrayList<Integer> ioTimes;
 	
 	public Process(String name, String arrivalTime, String executionTime) {
-		ioTimes = new LinkedList<Integer>();
+		ioTimes = new ArrayList<Integer>();
 		this.name = name;
 		this.arrivalTime = Integer.parseInt(arrivalTime);
 		this.executionTime = Integer.parseInt(executionTime);
 		this.alreadyExecuted = 0;
 		this.currentSlice = 0;
+		this.countToIo = 0;
+		this.ioExecutionTime = 0;
+		this.doingIo = 0;
+	}
+	
+	public int getDoingIo() {
+		return this.doingIo;
+	}
+	
+	public void setDoingIo(int doingIo) {
+		this.doingIo = doingIo;
+	}
+	
+	public void increaseDoingIo() {
+		this.doingIo++;
+	}
+	
+	public int getIoExecutionTime() {
+		return this.ioExecutionTime;
+	}
+	
+	public void setIoExecutionTime(int ioExecutionTime) {
+		this.ioExecutionTime = ioExecutionTime;
 	}
 	
 	public String getName() {
@@ -34,8 +59,18 @@ public class Process implements Comparable<Process> {
 		return this.alreadyExecuted;
 	}
 	
-	public void setAlreadyExecuted(int alreadyExecuted) {
-		this.alreadyExecuted = alreadyExecuted;
+	public int getCountToIo() {
+		return this.countToIo;
+	}
+	
+	public void setCountToIo(int countToIo) {
+		this.countToIo = countToIo;
+	}
+	
+	public void execute() {
+		this.currentSlice++;
+		this.alreadyExecuted++;
+		this.countToIo++;
 	}
 	
 	public int getCurrentSlice() {
@@ -46,12 +81,35 @@ public class Process implements Comparable<Process> {
 		this.currentSlice = currentSlice;
 	}
 	
-	public Queue<Integer> getIoTimes() {
+	public ArrayList<Integer> getIoTimes() {
 		return this.ioTimes;
+	}
+	
+	public int getHeadIo() {
+		return this.ioTimes.get(0);
 	}
 	
 	public void addAccessTime(String accessTime) {
 		this.ioTimes.add(Integer.parseInt(accessTime));
+	}
+	
+	public boolean hasIo() {
+		return this.ioTimes.size() > 0;
+	}
+
+	/*@Override
+	public String toString() {
+		return "Processo " + this.name + ":\n" +
+			   "Chegada: " + this.arrivalTime + "\n" + 
+			   "Tempo de Execução: " + this.executionTime + "\n" +
+			   "E/S: " + this.ioTimes;
+	}*/
+	
+	@Override
+	public String toString() {
+		return "Process [name=" + name + ", arrivalTime=" + arrivalTime + ", executionTime=" + executionTime
+				+ ", alreadyExecuted=" + alreadyExecuted + ", currentSlice=" + currentSlice + ", ioTimes=" + ioTimes
+				+ "]";
 	}
 
 	@Override
