@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public class Process implements Comparable<Process> {
-	private String name;
+	private int id;
 	private int arrivalTime;
 	private int executionTime;
 	private int alreadyExecuted;
@@ -11,9 +11,9 @@ public class Process implements Comparable<Process> {
 	private int doingIo;
 	private ArrayList<Integer> ioTimes;
 	
-	public Process(String name, String arrivalTime, String executionTime) {
+	public Process(int id, String arrivalTime, String executionTime) {
 		ioTimes = new ArrayList<Integer>();
-		this.name = name;
+		this.id = id;
 		this.arrivalTime = Integer.parseInt(arrivalTime);
 		this.executionTime = Integer.parseInt(executionTime);
 		this.alreadyExecuted = 0;
@@ -43,8 +43,8 @@ public class Process implements Comparable<Process> {
 		this.ioExecutionTime = ioExecutionTime;
 	}
 	
-	public String getName() {
-		return this.name;
+	public int getId() {
+		return this.id;
 	}
 	
 	public int getArrivalTime() {
@@ -107,9 +107,7 @@ public class Process implements Comparable<Process> {
 	
 	@Override
 	public String toString() {
-		return "Process [name=" + name + ", arrivalTime=" + arrivalTime + ", executionTime=" + executionTime
-				+ ", alreadyExecuted=" + alreadyExecuted + ", currentSlice=" + currentSlice + ", ioTimes=" + ioTimes
-				+ "]";
+		return "Process [name=" + id + ", arrivalTime=" + arrivalTime + ", executionTime=" + executionTime + ", ioTimes=" + ioTimes + "]";
 	}
 
 	@Override

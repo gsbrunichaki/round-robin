@@ -4,37 +4,33 @@ public class CPU {
 	private int totalTime;
 	private int usedTime;
 	private int currentTime;
+	private boolean contextSwitch;
 	private Scheduler scheduler;
 	private Process process;
 	private ArrayList<Process> arrivalsList;
 	private ArrayList<Process> ioList;
 	
 	public CPU(Scheduler scheduler) {
-		this.scheduler = scheduler;
-		this.arrivalsList = this.scheduler.getProcessesList();
-		this.ioList = new ArrayList<Process>();
-		this.totalTime = this.scheduler.calcSumTime();
+		this.totalTime = scheduler.calcSumTime();
 		this.usedTime = 0;
 		this.currentTime = 1;
+		this.contextSwitch = false;
+		this.scheduler = scheduler;
 		this.process = null;
+		this.arrivalsList = scheduler.getProcessesList();
+		this.ioList = new ArrayList<Process>();
 	}
 	
 	public void run() {		
-		while (currentTime <= 34) {
-		// while (usedTime <= totalTime) {
+		while (usedTime < totalTime) {
 			boolean ioExecution = false;
 			boolean sliceEnded = false;
 			boolean processEnded = false;
 			
-			System.out.print(this.currentTime + " ");
-			
-			if (this.arrivalsList.size() > 0) {
-				Process nextArrival = arrivalsList.get(0);
-				
-				if (this.currentTime == nextArrival.getArrivalTime()) {
-					this.scheduler.getProcessesQueue().add(nextArrival);
-					this.arrivalsList.remove(0);
-				}
+			while (!this.arrivalsList.isEmpty() && this.currentTime == this.arrivalsList.get(0).getArrivalTime()) {					
+				this.scheduler.getProcessesQueue().add(this.arrivalsList.get(0));
+				this.arrivalsList.remove(0);
+				this.contextSwitch = (this.process == null);
 			}
 			
 			if (!this.ioList.isEmpty()) {
@@ -46,35 +42,27 @@ public class CPU {
 					processIo.setDoingIo(0);
 					this.scheduler.getProcessesQueue().add(processIo);
 					this.ioList.remove(0);
+					
+					this.contextSwitch = (this.process == null);
 				}
 			}
 			
-			if (this.process == null && !this.scheduler.getProcessesQueue().isEmpty()) {
-				Process headProcess = this.scheduler.getProcessesQueue().poll();
-				
-				if (headProcess.getDoingIo() < 3)
-				this.process = scheduler.getProcessesQueue().poll();
+			if (contextSwitch) {
 				System.out.print("C");
 				
-				/*if (this.scheduler.getProcessesQueue().peek().getIoExecutionTime() == 0 || this.scheduler.getProcessesQueue().peek().getIoExecutionTime() + 3 <= this.currentTime) {
-					this.scheduler.getProcessesQueue().peek().setIoExecutionTime(0);
-					
-				} else {
-					System.out.print("-");
-				}*/
-			} else if (this.process == null && !this.ioList.isEmpty()) {
-				if (this.ioList.get(0).getDoingIo() < 3) {
-					System.out.print("-");
-				} else {
-					System.out.print("C");
+				if (!this.scheduler.getProcessesQueue().isEmpty()) {
+					this.process = this.scheduler.getProcessesQueue().poll();
 				}
+				
+				contextSwitch = false;
 			} else if (this.process != null) {
 				this.process.execute();
 				this.usedTime++;
-				System.out.print(this.process.getName());
+				
+				System.out.print(this.process.getId());
 				
 				ioExecution = (this.process.hasIo()) && (this.process.getCountToIo() % this.process.getHeadIo() == 0);
-				sliceEnded = (this.process.getCurrentSlice() % scheduler.getTimeSlice() == 0);
+				sliceEnded = (this.process.getCurrentSlice() % this.scheduler.getTimeSlice() == 0);
 				processEnded = (this.process.getAlreadyExecuted() == this.process.getExecutionTime());
 				
 				if (ioExecution || sliceEnded || processEnded) {
@@ -86,17 +74,18 @@ public class CPU {
 					}
 					
 					if (!processEnded && !ioExecution) {
-						scheduler.getProcessesQueue().add(this.process);
+						this.scheduler.getProcessesQueue().add(this.process);
 					}
 
 					this.process = null;
+					this.contextSwitch = true;
 				}
 			} else {
 				System.out.print("-");
 			}
 			
+			System.out.print(" ");
 			this.currentTime++;
-			System.out.println();
 		}
 	}
 }

@@ -13,7 +13,7 @@ public class App {
 		      String line = readFile.readLine();
 		      int id = 1;
 		      
-		      while (line != null) {
+		      while (scheduler.getCountProcesses() != scheduler.getNumberOfProcesses()) {
 		    	  lineToProcess(scheduler, id, line);
 		    	  
 		    	  line = readFile.readLine();
@@ -34,7 +34,7 @@ public class App {
 	public static void lineToProcess(Scheduler scheduler, int id, String line) {
 		String s[] = line.split(" ");
 		
-		scheduler.addProcess(new Process("P" + id, s[0], s[1]));
+		scheduler.addProcess(new Process(id, s[0], s[1]));
 		
 		for (int i = 2; i < s.length; i++) {
 			scheduler.getProcess(id - 1).addAccessTime(s[i]);

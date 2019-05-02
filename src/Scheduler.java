@@ -44,11 +44,11 @@ public class Scheduler {
 	}
 	
 	public void listProcesses() {
-		Collections.sort(this.processesList);
-		
 		for (int i = 0; i < this.processesList.size(); i++) {
-			this.processesList.get(i);
+			System.out.println(this.processesList.get(i));
 		}
+		
+		System.out.println("\nSlice time: " + this.timeSlice + "\n");
 	}
 	
 	public ArrayList<Process> getProcessesList() {
