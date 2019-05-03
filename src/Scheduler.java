@@ -34,13 +34,13 @@ public class Scheduler {
 		this.countProcesses += 1;
 	}
 	
+	public Process getProcess(int id) {
+		return this.processesList.get(id);
+	}
+	
 	public void addProcess(Process p) {
 		processesList.add(p);
 		incrementCountProcesses();
-	}
-	
-	public Process getProcess(int id) {
-		return this.processesList.get(id);
 	}
 	
 	public void listProcesses() {
@@ -58,16 +58,6 @@ public class Scheduler {
 	
 	public Queue<Process> getProcessesQueue() {
 		return this.processesQueue;
-	}
-	
-	public ArrayList<Integer> arrivalList() {
-		ArrayList<Integer> arrivals = new ArrayList<Integer>();
-		
-		for (int i = 0; i < processesList.size(); i++) {
-			arrivals.add(processesList.get(i).getArrivalTime());
-		}
-		
-		return arrivals;
 	}
 	
 	public int calcSumTime() {

@@ -22,11 +22,7 @@ public class CPU {
 	}
 	
 	public void run() {		
-		while (usedTime < totalTime) {
-			boolean ioExecution = false;
-			boolean sliceEnded = false;
-			boolean processEnded = false;
-			
+		while (usedTime < totalTime) {			
 			while (!this.arrivalsList.isEmpty() && this.currentTime == this.arrivalsList.get(0).getArrivalTime()) {					
 				this.scheduler.getProcessesQueue().add(this.arrivalsList.get(0));
 				this.arrivalsList.remove(0);
@@ -61,15 +57,14 @@ public class CPU {
 				
 				System.out.print(this.process.getId());
 				
-				ioExecution = (this.process.hasIo()) && (this.process.getCountToIo() % this.process.getHeadIo() == 0);
-				sliceEnded = (this.process.getCurrentSlice() % this.scheduler.getTimeSlice() == 0);
-				processEnded = (this.process.getAlreadyExecuted() == this.process.getExecutionTime());
+				boolean ioExecution = (this.process.hasIo()) && (this.process.getCountToIo() == this.process.getHeadIo());
+				boolean sliceEnded = (this.process.getCurrentSlice() % this.scheduler.getTimeSlice() == 0);
+				boolean processEnded = (this.process.getAlreadyExecuted() == this.process.getExecutionTime());
 				
 				if (ioExecution || sliceEnded || processEnded) {
 					if (ioExecution) {
 						this.process.getIoTimes().remove(0);
 						this.process.setCountToIo(0);
-						this.process.setIoExecutionTime(this.currentTime);
 						this.ioList.add(this.process);
 					}
 					

@@ -7,7 +7,6 @@ public class Process implements Comparable<Process> {
 	private int alreadyExecuted;
 	private int currentSlice;
 	private int countToIo;
-	private int ioExecutionTime;
 	private int doingIo;
 	private ArrayList<Integer> ioTimes;
 	
@@ -19,28 +18,7 @@ public class Process implements Comparable<Process> {
 		this.alreadyExecuted = 0;
 		this.currentSlice = 0;
 		this.countToIo = 0;
-		this.ioExecutionTime = 0;
 		this.doingIo = 0;
-	}
-	
-	public int getDoingIo() {
-		return this.doingIo;
-	}
-	
-	public void setDoingIo(int doingIo) {
-		this.doingIo = doingIo;
-	}
-	
-	public void increaseDoingIo() {
-		this.doingIo++;
-	}
-	
-	public int getIoExecutionTime() {
-		return this.ioExecutionTime;
-	}
-	
-	public void setIoExecutionTime(int ioExecutionTime) {
-		this.ioExecutionTime = ioExecutionTime;
 	}
 	
 	public int getId() {
@@ -59,6 +37,14 @@ public class Process implements Comparable<Process> {
 		return this.alreadyExecuted;
 	}
 	
+	public int getCurrentSlice() {
+		return this.currentSlice;
+	}
+	
+	public void setCurrentSlice(int currentSlice) {
+		this.currentSlice = currentSlice;
+	}
+	
 	public int getCountToIo() {
 		return this.countToIo;
 	}
@@ -67,18 +53,16 @@ public class Process implements Comparable<Process> {
 		this.countToIo = countToIo;
 	}
 	
-	public void execute() {
-		this.currentSlice++;
-		this.alreadyExecuted++;
-		this.countToIo++;
+	public int getDoingIo() {
+		return this.doingIo;
 	}
 	
-	public int getCurrentSlice() {
-		return this.currentSlice;
+	public void setDoingIo(int doingIo) {
+		this.doingIo = doingIo;
 	}
 	
-	public void setCurrentSlice(int currentSlice) {
-		this.currentSlice = currentSlice;
+	public void increaseDoingIo() {
+		this.doingIo++;
 	}
 	
 	public ArrayList<Integer> getIoTimes() {
@@ -89,21 +73,19 @@ public class Process implements Comparable<Process> {
 		return this.ioTimes.get(0);
 	}
 	
-	public void addAccessTime(String accessTime) {
-		this.ioTimes.add(Integer.parseInt(accessTime));
-	}
-	
 	public boolean hasIo() {
 		return this.ioTimes.size() > 0;
 	}
-
-	/*@Override
-	public String toString() {
-		return "Processo " + this.name + ":\n" +
-			   "Chegada: " + this.arrivalTime + "\n" + 
-			   "Tempo de Execução: " + this.executionTime + "\n" +
-			   "E/S: " + this.ioTimes;
-	}*/
+	
+	public void addIoTime(String ioTime) {
+		this.ioTimes.add(Integer.parseInt(ioTime));
+	}
+	
+	public void execute() {
+		this.currentSlice++;
+		this.alreadyExecuted++;
+		this.countToIo++;
+	}
 	
 	@Override
 	public String toString() {
@@ -111,10 +93,10 @@ public class Process implements Comparable<Process> {
 	}
 
 	@Override
-	public int compareTo(Process p) {
-		if (this.arrivalTime < p.getArrivalTime()) {
+	public int compareTo(Process process) {
+		if (this.arrivalTime < process.getArrivalTime()) {
 			return -1;
-		} else if (this.arrivalTime > p.getArrivalTime()) {
+		} else if (this.arrivalTime > process.getArrivalTime()) {
 			return 1;
 		}
 		

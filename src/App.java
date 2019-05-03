@@ -1,7 +1,26 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Collections;
+
+/*
+ * Ler de um arquivo as seguintes informações, nesta ordem: número de processos, tamanho de fatia de tempo, e 
+ * para cada processo, tempo de chegada, tempo de execução, e tempos de acesso a operações de E/S (tempo 
+ * correspondente à sua execução, ou seja, após ele executar x unidades de tempo ele faz E/S).
+ * 
+ * - Round Robin (sem prioridade)
+ * 
+ * Imprimir um gráfico (texto) mostrando como os processo foram executados.
+ * Considerar uma unidade de tempo para troca de contexto (representar como C).
+ * Tempo começa em 1. Processos podem iniciar logo após haver a troca de contexto, ou seja, se o 
+ * processo chega no tempo x, ele pode começar a executar no tempo x+1, se não houver processo executando. 
+ * Desempate é feito pela ordem de chegada.
+ * 
+ * Tempo que leva para fazer uma operação de entrada e saída: valor constante igual a 3. 
+ *
+ * Date                  02/05/2019
+ * 
+ * Author                Gabriel Brunichaki, Paulo Aranha
+ */
 
 public class App {
 	
@@ -37,7 +56,7 @@ public class App {
 		scheduler.addProcess(new Process(id, s[0], s[1]));
 		
 		for (int i = 2; i < s.length; i++) {
-			scheduler.getProcess(id - 1).addAccessTime(s[i]);
+			scheduler.getProcess(id - 1).addIoTime(s[i]);
 		}
 	}
 	
